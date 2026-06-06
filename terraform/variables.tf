@@ -7,7 +7,7 @@ variable "region" {
 variable "github_repo" {
   description = "GitHub repository in owner/name format for the Actions OIDC trust policy."
   type        = string
-  default     = "Yuwa/project-bedrock"
+  default     = "yuwa619/project-bedrock"
 }
 
 variable "allowed_cluster_public_access_cidrs" {
