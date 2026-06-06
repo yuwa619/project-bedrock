@@ -28,6 +28,11 @@ variable "node_instance_types" {
   type        = list(string)
 }
 
+variable "cluster_admin_principal_arn" {
+  description = "Stable IAM principal that receives EKS cluster admin access."
+  type        = string
+}
+
 variable "tags" {
   description = "Common resource tags."
   type        = map(string)

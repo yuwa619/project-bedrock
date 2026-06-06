@@ -15,6 +15,7 @@ module "eks" {
   private_subnet_ids                  = module.network.private_subnet_ids
   allowed_cluster_public_access_cidrs = var.allowed_cluster_public_access_cidrs
   node_instance_types                 = var.node_instance_types
+  cluster_admin_principal_arn         = var.cluster_admin_principal_arn
   tags                                = local.common_tags
 }
 

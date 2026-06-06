@@ -22,6 +22,12 @@ variable "node_instance_types" {
   default     = ["t3.large"]
 }
 
+variable "cluster_admin_principal_arn" {
+  description = "Stable IAM principal that receives EKS cluster admin access. Set to the human operator that performed the first local apply."
+  type        = string
+  default     = "arn:aws:iam::348737449008:user/mobaseki"
+}
+
 variable "developer_console_password_length" {
   description = "Length of the generated IAM console password for bedrock-dev-view."
   type        = number

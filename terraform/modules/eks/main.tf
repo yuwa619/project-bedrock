@@ -9,7 +9,27 @@ module "eks" {
   endpoint_private_access      = true
   endpoint_public_access_cidrs = var.allowed_cluster_public_access_cidrs
 
-  enable_cluster_creator_admin_permissions = true
+  enable_cluster_creator_admin_permissions = false
+
+  access_entries = {
+    cluster_creator = {
+      principal_arn = var.cluster_admin_principal_arn
+      type          = "STANDARD"
+
+      policy_associations = {
+        admin = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            type = "cluster"
+          }
+        }
+      }
+    }
+  }
+
+  kms_key_administrators = [
+    var.cluster_admin_principal_arn
+  ]
 
   enabled_log_types = [
     "api",
