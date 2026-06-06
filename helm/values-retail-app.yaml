@@ -1,0 +1,89 @@
+catalog:
+  fullnameOverride: catalog
+  app:
+    persistence:
+      provider: mysql
+      endpoint: "${catalog_db_host}:${catalog_db_port}"
+      database: "${catalog_db_name}"
+      secret:
+        create: false
+        name: retail-db-credentials
+  mysql:
+    create: false
+
+carts:
+  fullnameOverride: carts
+  serviceAccount:
+    create: true
+    name: carts
+    annotations:
+      eks.amazonaws.com/role-arn: "${carts_service_account_role_arn}"
+  app:
+    persistence:
+      provider: dynamodb
+      dynamodb:
+        tableName: "${carts_table_name}"
+        createTable: false
+  dynamodb:
+    create: false
+
+checkout:
+  fullnameOverride: checkout
+  app:
+    persistence:
+      provider: redis
+      redis:
+        endpoint: ""
+        tls: false
+    endpoints:
+      orders: http://orders:80
+  redis:
+    create: true
+
+orders:
+  fullnameOverride: orders
+  app:
+    persistence:
+      provider: postgres
+      endpoint: "${orders_db_host}:${orders_db_port}"
+      database: "${orders_db_name}"
+      secret:
+        create: false
+        name: retail-db-credentials
+    messaging:
+      provider: rabbitmq
+      rabbitmq:
+        addresses: []
+        secret:
+          create: true
+          name: orders-rabbitmq
+          username: ""
+          password: ""
+  postgresql:
+    create: false
+  rabbitmq:
+    create: true
+
+ui:
+  fullnameOverride: ui
+  app:
+    endpoints:
+      catalog: http://catalog:80
+      carts: http://carts:80
+      checkout: http://checkout:80
+      orders: http://orders:80
+    search:
+      enabled: false
+    chat:
+      enabled: false
+  service:
+    type: ClusterIP
+    port: 80
+  ingress:
+    enabled: true
+    className: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/healthcheck-path: /
+    hosts: []

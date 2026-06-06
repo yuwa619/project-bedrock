@@ -1,0 +1,37 @@
+.DS_Store
+.idea/
+.vscode/
+.[c]laude/
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Local credentials and generated artefacts
+*.pem
+*.key
+*.crt
+*.p12
+*.zip
+*.tar
+*.tar.gz
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Keep grading.json tracked; replace it after Terraform apply.
+!.gitignore
+!grading.json
